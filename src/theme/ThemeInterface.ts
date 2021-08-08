@@ -38,7 +38,7 @@ export interface ThemeInterface {
     xs: Typography
     sm: Typography
     // md: Typography
-    // lg: Typography
+    lg: Typography
     xl: Typography
   }
   eventCellOverlappings: readonly Palette[]

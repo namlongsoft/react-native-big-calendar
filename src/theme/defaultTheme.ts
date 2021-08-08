@@ -4,8 +4,8 @@ export const defaultTheme: ThemeInterface = {
   isRTL: false,
   palette: {
     primary: {
-      main: 'rgb(66, 133, 244)',
-      contrastText: '#fff',
+      main: '#000',
+      contrastText: '#3075ea',
     },
     // nowIndicator: 'red',
     nowIndicator: '#3a465b',
@@ -34,8 +34,12 @@ export const defaultTheme: ThemeInterface = {
     sm: {
       fontSize: 12,
     },
-    xl: {
-      fontSize: 22,
+    lg: {
+      fontSize: 16,
     },
+    xl: {
+      fontSize: 19,
+      fontWeight: '700',
+    },,
   },
 }
