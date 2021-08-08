@@ -86,6 +86,12 @@ export const u = StyleSheet.create({
   'mt-6': {
     marginTop: 6,
   },
+  'mb-2': {
+    marginBottom: 2,
+  },
+  'mb-4': {
+    marginBottom: 4,
+  },
   'mb-6': {
     marginBottom: 6,
   },

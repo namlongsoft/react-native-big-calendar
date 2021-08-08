@@ -31,6 +31,10 @@ import { CalendarBodyForMonthView } from './CalendarBodyForMonthView'
 import { CalendarHeader } from './CalendarHeader'
 import { CalendarHeaderForMonthView } from './CalendarHeaderForMonthView'
 
+type IDot = {
+  [key in string]: number;
+}
+
 export interface CalendarContainerProps<T> {
   /**
    * Events to be rendered. This is a required prop.
@@ -76,6 +80,9 @@ export interface CalendarContainerProps<T> {
   onPressEvent?: (event: ICalendarEvent<T>) => void
   weekEndsOn?: WeekNum
   maxVisibleEventCount?: number
+  todayHighlight?: boolean,
+  dots?: IDot //{ 'YYYY-MM-DD': number }
+  showWeekend?: boolean
 }
 
 dayjs.extend(isBetween)
@@ -107,7 +114,9 @@ function _CalendarContainer<T>({
   renderHeaderForMonthView: HeaderComponentForMonthView = CalendarHeaderForMonthView,
   weekEndsOn = 6,
   maxVisibleEventCount = 3,
-  todayHighlight = false
+  todayHighlight = false,
+  dots,
+  showWeekend = true,
 }: CalendarContainerProps<T>) {
   const [targetDate, setTargetDate] = React.useState(dayjs(date))
 
@@ -132,11 +141,11 @@ function _CalendarContainer<T>({
       case 'month':
         return getDatesInMonth(targetDate, locale)
       case 'week':
-        return getDatesInWeek(targetDate, weekStartsOn, locale)
+        return getDatesInWeek(targetDate, weekStartsOn, locale, showWeekend)
       case '3days':
         return getDatesInNextThreeDays(targetDate, locale)
       case 'day':
-        return getDatesInNextOneDay(targetDate, locale)
+        return getDatesInWeek(targetDate, 0, locale, showWeekend)
       case 'custom':
         return getDatesInNextCustomDays(targetDate, weekStartsOn, weekEndsOn, locale)
       default:
@@ -148,9 +157,13 @@ function _CalendarContainer<T>({
 
   React.useEffect(() => {
     if (onChangeDate) {
-      onChangeDate([dateRange[0].toDate(), dateRange.slice(-1)[0].toDate()])
+    if (mode == 'day') {
+    onChangeDate([targetDate.toDate(), targetDate.toDate()])
+    } else {
+    onChangeDate([dateRange[0].toDate(), dateRange.slice(-1)[0].toDate()])
     }
-  }, [dateRange, onChangeDate])
+    }
+    }, [dateRange, onChangeDate, targetDate])
 
   const cellHeight = React.useMemo(() => Math.max(height - 30, MIN_HEIGHT) / 24, [height])
 
@@ -209,6 +222,9 @@ function _CalendarContainer<T>({
     style: headerContainerStyle,
     allDayEvents: allDayEvents,
     onPressDateHeader: onPressDateHeader,
+    dots,
+    targetDate,
+    onSwipeHorizontal
   }
 
   return (

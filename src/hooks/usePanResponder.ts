@@ -2,11 +2,12 @@ import React from 'react'
 import { PanResponder } from 'react-native'
 import { HorizontalDirection } from '../interfaces'
 
-const SWIPE_THRESHOLD = 50
 
 export function usePanResponder({
+  swipeThreshold = 50,
   onSwipeHorizontal,
 }: {
+  swipeThreshold?: number
   onSwipeHorizontal?: (d: HorizontalDirection) => void
 }) {
   const [panHandled, setPanHandled] = React.useState(false)
@@ -19,15 +20,16 @@ export function usePanResponder({
           return dx > 2 || dx < -2 || dy > 2 || dy < -2
         },
         onPanResponderMove: (_, { dy, dx }) => {
-          if (dy < -1 * SWIPE_THRESHOLD || SWIPE_THRESHOLD < dy || panHandled) {
+          if (dy < -1 * swipeThreshold || swipeThreshold < dy || panHandled) {
             return
           }
-          if (dx < -1 * SWIPE_THRESHOLD) {
+          
+          if (dx < -1 * swipeThreshold) {
             onSwipeHorizontal && onSwipeHorizontal('LEFT')
             setPanHandled(true)
             return
           }
-          if (dx > SWIPE_THRESHOLD) {
+          if (dx > swipeThreshold) {
             onSwipeHorizontal && onSwipeHorizontal('RIGHT')
             setPanHandled(true)
             return

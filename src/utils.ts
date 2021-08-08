@@ -23,10 +23,11 @@ export function getDatesInWeek(
   date: Date | dayjs.Dayjs = new Date(),
   weekStartsOn: WeekNum = 0,
   locale = 'en',
+  showWeekend = true,
 ) {
   const subject = dayjs(date)
   const subjectDOW = subject.day()
-  const days = Array(7)
+  const days = Array(showWeekend ? 7 : 5)
     .fill(0)
     .map((_, i) => {
       return subject
