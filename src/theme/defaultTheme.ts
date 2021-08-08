@@ -40,6 +40,6 @@ export const defaultTheme: ThemeInterface = {
     xl: {
       fontSize: 19,
       fontWeight: '700',
-    },,
+    },
   },
 }
